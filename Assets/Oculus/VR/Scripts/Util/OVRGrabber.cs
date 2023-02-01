@@ -19,6 +19,8 @@
  */
 
 using System.Collections.Generic;
+using UnityEditor.Graphs;
+using System.Collections;
 using UnityEngine;
 
 /// <summary>
@@ -325,6 +327,18 @@ public class OVRGrabber : MonoBehaviour
                 m_grabbedObj.transform.parent = transform;
             }
         }
+
+        if (gameObject.GetComponent<Item>() == null) return;
+        if (gameObject.GetComponent<Item>().inSlot)
+        {
+            gameObject.GetComponentInParent<Slot>().ItemInSlot = null;
+            gameObject.transform.parent = null;
+            gameObject.GetComponent<Item>().inSlot = false;
+            gameObject.GetComponent<Item>().currentSlot.ResetColor();
+            gameObject.GetComponent<Item>().currentSlot = null;
+
+        }
+
     }
 
     protected virtual void MoveGrabbedObject(Vector3 pos, Quaternion rot, bool forceTeleport = false)
