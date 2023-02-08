@@ -54,6 +54,8 @@ public class Peasant : MonoBehaviour
             yield return new WaitForSeconds(.2f);
             anim.SetTrigger("Attack");
             yield return new WaitForSeconds(attackCd);
+            anim.ResetTrigger("Attack");
+            anim.SetTrigger("Idle");
         }
     }
 

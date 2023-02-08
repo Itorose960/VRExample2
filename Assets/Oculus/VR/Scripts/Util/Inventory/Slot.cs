@@ -34,12 +34,19 @@ public class Slot : MonoBehaviour
     {
         obj.GetComponent<Rigidbody>().isKinematic = true;
         obj.transform.SetParent(gameObject.transform, true);
-        obj.transform.localPosition = new Vector3(-0.2f, -0.1f, 0);
+        obj.transform.localPosition = Vector3.zero;
         obj.transform.localEulerAngles = obj.GetComponent<Item>().slotRotation;
         obj.GetComponent<Item>().inSlot = true;
         obj.GetComponent<Item>().currentSlot = this;
         ItemInSlot = obj;
         slotImage.color = Color.gray;
+    }
+
+    public void TakeItem()
+    {
+
+        ItemInSlot = null;
+        ResetColor();
     }
 
     public void ResetColor()

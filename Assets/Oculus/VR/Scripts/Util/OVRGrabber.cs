@@ -19,7 +19,6 @@
  */
 
 using System.Collections.Generic;
-using UnityEditor.Graphs;
 using System.Collections;
 using UnityEngine;
 
@@ -269,7 +268,18 @@ public class OVRGrabber : MonoBehaviour
 
         if (closestGrabbable != null)
         {
-            transform.GetChild(0).GetChild(2).gameObject.SetActive(true);
+            transform.GetChild(0).GetChild(2).gameObject.SetActive(false);
+            Item item;
+            if(closestGrabbable.TryGetComponent<Item>(out item))
+            {
+                if(item.inSlot)
+                {
+                    item.inSlot = false;
+                    item.GetComponent<Rigidbody>().isKinematic = false;
+                    item.transform.SetParent(null);
+                    item.currentSlot.TakeItem();
+                }
+            }
             if (closestGrabbable.isGrabbed)
             {
                 closestGrabbable.grabbedBy.OffhandGrabbed(closestGrabbable);
@@ -379,7 +389,7 @@ public class OVRGrabber : MonoBehaviour
             GrabbableRelease(linearVelocity, angularVelocity);
             
         }
-        transform.GetChild(0).GetChild(2).gameObject.SetActive(false);
+        transform.GetChild(0).GetChild(2).gameObject.SetActive(true);
         // Re-enable grab volumes to allow overlap events
         GrabVolumeEnable(true);
     }
